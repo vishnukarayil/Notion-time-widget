@@ -59,6 +59,10 @@
             font-size: 20px;
             color: #aaa;
         }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
@@ -68,11 +72,13 @@
         </div>
         <div class="pomodoro">
             <div id="timer">25:00</div>
-            <button class="button" onclick="startTimer()">
-                <img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start">
-            </button>
-            <button class="button" onclick="shortBreak()">SB</button>
-            <button class="button" onclick="longBreak()">LB</button>
+            <div class="button-container">
+                <button class="button" onclick="startTimer()">
+                    <img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start">
+                </button>
+                <button class="button" onclick="shortBreak()">SB</button>
+                <button class="button" onclick="longBreak()">LB</button>
+            </div>
             <div id="indicator">Pomodoro</div>
         </div>
     </div>
