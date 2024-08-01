@@ -24,6 +24,16 @@
             border-radius: 15px;
             background-color: #333;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .clock {
+            flex: 1;
+        }
+        .pomodoro {
+            flex: 2;
         }
         #time, #timer {
             font-size: 48px;
@@ -37,6 +47,9 @@
             background-color: #555;
             color: white;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .button:hover {
             background-color: #777;
@@ -51,22 +64,32 @@
 <body>
     <div class="container">
         <div class="clock">
-            <div id="time">00:00:00</div>
+            <div id="time">12:00 AM</div>
         </div>
         <div class="pomodoro">
             <div id="timer">25:00</div>
-            <button class="button" onclick="startTimer()">Start</button>
-            <button class="button" onclick="shortBreak()">Short Break</button>
-            <button class="button" onclick="longBreak()">Long Break</button>
+            <button class="button" onclick="startTimer()">
+                <img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start">
+            </button>
+            <button class="button" onclick="shortBreak()">SB</button>
+            <button class="button" onclick="longBreak()">LB</button>
             <div id="indicator">Pomodoro</div>
         </div>
     </div>
     <script>
         function updateTime() {
             const time = new Date();
-            document.getElementById('time').innerText = time.toLocaleTimeString();
+            let hours = time.getHours();
+            let minutes = time.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            const strTime = hours + ':' + minutes + ' ' + ampm;
+            document.getElementById('time').innerText = strTime;
         }
         setInterval(updateTime, 1000);
+        updateTime();
 
         let timer;
         let timeLeft;
@@ -98,11 +121,6 @@
             startTimer(longBreakTime);
             document.getElementById('indicator').innerText = 'Long Break';
         }
-
-        window.onload = () => {
-            updateTime();
-            startTimer();
-        };
     </script>
 </body>
 </html>
