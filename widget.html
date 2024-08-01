@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock and Pomodoro Timer</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            gap: 50px;
+        }
+        .clock, .pomodoro {
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #333;
+            text-align: center;
+        }
+        .button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="clock">
+            <h2>Clock</h2>
+            <div id="time">00:00:00</div>
+        </div>
+        <div class="pomodoro">
+            <h2>Pomodoro Timer</h2>
+            <div id="timer">25:00</div>
+            <button class="button" onclick="startTimer()">Start</button>
+            <button class="button" onclick="shortBreak()">Short Break</button>
+            <button class="button" onclick="longBreak()">Long Break</button>
+        </div>
+    </div>
+    <script>
+        function updateTime() {
+            const time = new Date();
+            document.getElementById('time').innerText = time.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+
+        let timer;
+        let timeLeft;
+        const pomodoroTime = 25 * 60;
+        const shortBreakTime = 5 * 60;
+        const longBreakTime = 15 * 60;
+
+        function startTimer(duration = pomodoroTime) {
+            clearInterval(timer);
+            timeLeft = duration;
+            timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                }
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                timeLeft--;
+            }, 1000);
+        }
+
+        function shortBreak() {
+            startTimer(shortBreakTime);
+        }
+
+        function longBreak() {
+            startTimer(longBreakTime);
+        }
+
+        window.onload = () => {
+            updateTime();
+            startTimer();
+        };
+    </script>
+</body>
+</html>
