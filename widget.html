@@ -25,6 +25,10 @@
             background-color: #333;
             text-align: center;
         }
+        #time, #timer {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
         .button {
             margin: 5px;
             padding: 10px 20px;
@@ -37,20 +41,24 @@
         .button:hover {
             background-color: #777;
         }
+        #indicator {
+            margin-top: 10px;
+            font-size: 20px;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="clock">
-            <h2>Clock</h2>
             <div id="time">00:00:00</div>
         </div>
         <div class="pomodoro">
-            <h2>Pomodoro Timer</h2>
             <div id="timer">25:00</div>
             <button class="button" onclick="startTimer()">Start</button>
             <button class="button" onclick="shortBreak()">Short Break</button>
             <button class="button" onclick="longBreak()">Long Break</button>
+            <div id="indicator">Pomodoro</div>
         </div>
     </div>
     <script>
@@ -69,6 +77,7 @@
         function startTimer(duration = pomodoroTime) {
             clearInterval(timer);
             timeLeft = duration;
+            document.getElementById('indicator').innerText = 'Pomodoro';
             timer = setInterval(() => {
                 if (timeLeft <= 0) {
                     clearInterval(timer);
@@ -82,10 +91,12 @@
 
         function shortBreak() {
             startTimer(shortBreakTime);
+            document.getElementById('indicator').innerText = 'Short Break';
         }
 
         function longBreak() {
             startTimer(longBreakTime);
+            document.getElementById('indicator').innerText = 'Long Break';
         }
 
         window.onload = () => {
