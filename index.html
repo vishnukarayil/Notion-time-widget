@@ -73,8 +73,9 @@
         <div class="pomodoro">
             <div id="timer">25:00</div>
             <div class="button-container">
-                <button class="button" id="start-stop-button" onclick="startTimer()">
-                    <img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start">
+                <button class="button" id="startStopButton" onclick="toggleTimer()">
+                    <img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start" id="playIcon">
+                    <img src="https://img.icons8.com/material-rounded/24/ffffff/stop.png" class="icon" alt="Stop" id="stopIcon" style="display:none;">
                 </button>
                 <button class="button" onclick="shortBreak()">SB</button>
                 <button class="button" onclick="longBreak()">LB</button>
@@ -102,45 +103,59 @@
         const pomodoroTime = 25 * 60;
         const shortBreakTime = 5 * 60;
         const longBreakTime = 15 * 60;
+        let isRunning = false;
 
-        function startTimer(duration = pomodoroTime) {
+        function startTimer(duration) {
             clearInterval(timer);
             timeLeft = duration;
-            document.getElementById('indicator').innerText = 'Pomodoro';
             timer = setInterval(() => {
                 if (timeLeft <= 0) {
                     clearInterval(timer);
+                    document.getElementById('startStopButton').onclick = () => {
+                        startTimer(duration);
+                    };
+                    document.getElementById('playIcon').style.display = 'inline';
+                    document.getElementById('stopIcon').style.display = 'none';
+                    return;
                 }
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
                 document.getElementById('timer').innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
                 timeLeft--;
             }, 1000);
-
-            // Switch the button to "Stop"
-            const button = document.getElementById('start-stop-button');
-            button.innerHTML = '<img src="https://img.icons8.com/material-rounded/24/ffffff/stop.png" class="icon" alt="Stop">';
-            button.onclick = stopTimer;
         }
 
-        function stopTimer() {
-            clearInterval(timer);
-            document.getElementById('timer').innerText = '25:00';
-
-            // Switch the button back to "Start"
-            const button = document.getElementById('start-stop-button');
-            button.innerHTML = '<img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start">';
-            button.onclick = startTimer;
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(timer);
+                document.getElementById('timer').innerText = '25:00';
+                document.getElementById('startStopButton').onclick = () => {
+                    startTimer(pomodoroTime);
+                };
+                document.getElementById('playIcon').style.display = 'inline';
+                document.getElementById('stopIcon').style.display = 'none';
+            } else {
+                startTimer(pomodoroTime);
+                document.getElementById('playIcon').style.display = 'none';
+                document.getElementById('stopIcon').style.display = 'inline';
+            }
+            isRunning = !isRunning;
         }
 
         function shortBreak() {
             startTimer(shortBreakTime);
             document.getElementById('indicator').innerText = 'Short Break';
+            document.getElementById('playIcon').style.display = 'none';
+            document.getElementById('stopIcon').style.display = 'inline';
+            isRunning = true;
         }
 
         function longBreak() {
             startTimer(longBreakTime);
             document.getElementById('indicator').innerText = 'Long Break';
+            document.getElementById('playIcon').style.display = 'none';
+            document.getElementById('stopIcon').style.display = 'inline';
+            isRunning = true;
         }
     </script>
 </body>
