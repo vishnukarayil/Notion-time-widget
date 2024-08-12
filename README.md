@@ -15,4 +15,4 @@ This repository contains the source code for a simple yet functional Clock and P
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/clock-pomodoro-widget.git
+   git clone https://github.com/vishnukarayil/Notion-time-widget.git
