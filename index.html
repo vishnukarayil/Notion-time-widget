@@ -73,7 +73,7 @@
         <div class="pomodoro">
             <div id="timer">25:00</div>
             <div class="button-container">
-                <button class="button" onclick="startTimer()">
+                <button class="button" id="start-stop-button" onclick="startTimer()">
                     <img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start">
                 </button>
                 <button class="button" onclick="shortBreak()">SB</button>
@@ -116,6 +116,21 @@
                 document.getElementById('timer').innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
                 timeLeft--;
             }, 1000);
+
+            // Switch the button to "Stop"
+            const button = document.getElementById('start-stop-button');
+            button.innerHTML = '<img src="https://img.icons8.com/material-rounded/24/ffffff/stop.png" class="icon" alt="Stop">';
+            button.onclick = stopTimer;
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            document.getElementById('timer').innerText = '25:00';
+
+            // Switch the button back to "Start"
+            const button = document.getElementById('start-stop-button');
+            button.innerHTML = '<img src="https://img.icons8.com/material-rounded/24/ffffff/play.png" class="icon" alt="Start">';
+            button.onclick = startTimer;
         }
 
         function shortBreak() {
